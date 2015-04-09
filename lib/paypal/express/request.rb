@@ -56,6 +56,10 @@ module Paypal
           params[:BUTTONSOURCE] = opts[:bn_code]
         end
 
+        if opts[:req_billing_address].to_s == "1"
+          params[:REQBILLINGADDRESS] = "1"
+        end
+
         Array(payment_requests).each_with_index do |payment_request, index|
           params.merge! payment_request.to_params(index)
         end
