@@ -16,6 +16,10 @@ module Paypal
 
         params[:ALLOWNOTE] = 0 if options[:allow_note] == false
 
+        if options[:req_billing_address].to_s == "1" || options[:req_billing_address] == true
+          params[:REQBILLINGADDRESS] = 1
+        end
+
         {
           :solution_type => :SOLUTIONTYPE,
           :landing_page  => :LANDINGPAGE,
@@ -54,10 +58,6 @@ module Paypal
         # https://www.paypal-marketing.com/emarketing/partner/na/portal/integrate_bn_codes.html
         if opts[:bn_code].present?
           params[:BUTTONSOURCE] = opts[:bn_code]
-        end
-
-        if opts[:req_billing_address].to_s == "1"
-          params[:REQBILLINGADDRESS] = 1
         end
 
         Array(payment_requests).each_with_index do |payment_request, index|
